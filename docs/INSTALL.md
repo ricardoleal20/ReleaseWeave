@@ -58,4 +58,4 @@ The primary executable is releaseweave. To retain scripts using the old name, in
 ./releaseweave --help
 ```
 
-Expected version: releaseweave 0.2.0. On Windows use ./releaseweave.exe. Copy the bundled examples to a temporary directory before trying changes that write manifests. Continue with [the quickstart](QUICKSTART.md) or [the Spanish PoC guide](POC.md).
+Expected version: releaseweave 0.2.0. On Windows use ./releaseweave.exe. Copy the bundled examples to a temporary directory before trying changes that write manifests. Continue with [the quickstart](QUICKSTART.md) or [the Spanish PoC guide](https://github.com/ricardoleal20/ReleaseWeave/blob/v0.2.0/docs/POC.md).
