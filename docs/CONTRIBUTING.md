@@ -45,6 +45,6 @@ Run demos only on disposable copies of examples. scripts/demo.py creates them un
 
 ## Reviews and maintenance
 
-The main branch requires PR review, successful CI and resolved review conversations. The maintainer reviews external contributions. A green check does not replace review. Dependency update PRs are generated weekly and follow the same review process.
+The main branch requires PR review, successful CI and resolved review conversations. The maintainer reviews external contributions. A green check does not replace review. Dependency update PRs are generated weekly and follow the same review process. Compatible Rust updates and GitHub Actions updates are grouped to reduce PR volume. When updating an action used by the CLI-generated workflows, update templates/ as well as .github/workflows/.
 
 Search existing issues before reporting a bug or proposing a feature. Use [private vulnerability reporting](../SECURITY.md) for security issues, and follow the [code of conduct](../CODE_OF_CONDUCT.md).

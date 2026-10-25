@@ -16,11 +16,11 @@ jobs:
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 0
-      - uses: ricardoleal20/ChangeForge@main
+      - uses: ricardoleal20/ReleaseWeave@main
       - name: Validate release manifest
         run: releaseweave release --json > "$RUNNER_TEMP/releases.json"
       - name: Create GitHub releases at the merged commit

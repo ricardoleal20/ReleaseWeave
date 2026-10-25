@@ -13,8 +13,8 @@ jobs:
   release-pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: ricardoleal20/ChangeForge@main
+      - uses: actions/checkout@v7
+      - uses: ricardoleal20/ReleaseWeave@main
       - name: Prepare releases
         id: plan
         shell: bash

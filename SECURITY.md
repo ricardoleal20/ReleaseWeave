@@ -1,6 +1,6 @@
 # Security policy
 
-Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/ricardoleal20/ChangeForge/security/advisories/new).
+Report vulnerabilities privately through [GitHub private vulnerability reporting](https://github.com/ricardoleal20/ReleaseWeave/security/advisories/new).
 
 Please include the affected commit/version, operating system, reproduction steps, expected impact and any mitigation. Do not post credentials, tokens or private repository contents in public issues.
 

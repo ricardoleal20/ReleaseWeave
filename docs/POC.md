@@ -1,6 +1,6 @@
 # PoC de ReleaseWeave
 
-ReleaseWeave es el nuevo nombre local de ChangeForge. Es un CLI de Rust inspirado en Changesets para documentar cambios, calcular versiones y preparar releases de GitHub. El mismo flujo funciona en un single-repo y en un monorepo con versiones independientes.
+ReleaseWeave es el nuevo nombre de ChangeForge, incluido su repositorio público. Es un CLI de Rust inspirado en Changesets para documentar cambios, calcular versiones y preparar releases de GitHub. El mismo flujo funciona en un single-repo y en un monorepo con versiones independientes.
 
 ## Ejecutar y ver resultados reales
 
@@ -51,7 +51,7 @@ Cambio de código + changeset → push a main → PR de versiones → revisión 
 
 `init --github` genera los workflows. El release se ejecuta solo para una PR fusionada desde `releaseweave/releases`, del mismo repositorio, y se fija al SHA del merge. El contenido de `.releaseweave/release.json` contiene las versiones, tags y notas calculados por el CLI.
 
-Los workflows están preparados y se verifican localmente, pero esta entrega no los ha ejecutado en GitHub. Los templates de consumidores apuntan a `ricardoleal20/ChangeForge@main` y requieren que esta rama se integre antes. La URL pública del repositorio y el nombre publicado anteriormente no se modifican automáticamente.
+El repositorio público es https://github.com/ricardoleal20/ReleaseWeave y los templates de consumidores apuntan a `ricardoleal20/ReleaseWeave@main`. La CI del PoC y el workflow que prepara PRs de release ya se han ejecutado en GitHub. La publicación real de un release sigue reservada al merge de una PR de versiones; las pruebas de publicación usan repositorios Git locales y una frontera gh simulada.
 
 ## Alcance y límites
 

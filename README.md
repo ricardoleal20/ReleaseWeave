@@ -104,7 +104,7 @@ This writes two workflows without replacing existing files:
 1. A push to `main` produces a release plan and a `releaseweave/releases` PR with version changes, package changelogs and `.releaseweave/release.json`.
 2. Merging that same-repository PR into `main` creates one GitHub Release per affected package, at the exact merge commit, using the recorded tag and notes.
 
-The root `action.yml` builds the CLI from the checked-out action revision with `cargo install --locked`. The repository's workflows use the local action; generated consumer templates use `ricardoleal20/ChangeForge@main`. **Consumer templates become usable after these changes are merged upstream.** Pin the action to the resulting commit SHA for reproducible consumer setup. The existing repository URL remains valid; this PoC does not rename the remote repository.
+The root `action.yml` builds the CLI from the checked-out action revision with `cargo install --locked`. The repository's workflows use the local action; generated consumer templates use `ricardoleal20/ReleaseWeave@main`. Pin the action to a reviewed commit SHA for reproducible consumer setup. The public repository is now [ricardoleal20/ReleaseWeave](https://github.com/ricardoleal20/ReleaseWeave); update existing Git remotes and action references using the migration guide.
 
 Enable **Allow GitHub Actions to create and approve pull requests** in repository settings. The PR workflow requires `contents: write` and `pull-requests: write`; the release workflow requires `contents: write`. Change the `main` branch in the workflow files if needed. Package registries are not published by these workflows. `release` is a read-only local preview/export command.
 
