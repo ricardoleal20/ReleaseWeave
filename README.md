@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/img/releaseweave-banner.png" alt="ReleaseWeave — releases for single repos and monorepos" width="100%" /></p>
+
 # ReleaseWeave
 
 Changeset-driven releases for **single repositories and monorepos**, written in Rust and built for GitHub. Previously called ChangeForge. Inspired by Changesets.
@@ -22,14 +24,28 @@ The demo runs the actual CLI on fresh copies under `.demo/`. It verifies dry-run
 
 See [the Spanish PoC walkthrough](docs/POC.md).
 
-## Install from this checkout
+## Install v0.2.0
+
+Native binaries are available for Linux x64/ARM64, macOS Intel/Apple Silicon and Windows x64 from [the release](https://github.com/ricardoleal20/ReleaseWeave/releases/tag/v0.2.0).
+
+Linux/macOS:
 
 ```sh
-cargo install --path . --locked --bin releaseweave
-releaseweave --help
+curl -fLsS -o install-releaseweave.sh https://github.com/ricardoleal20/ReleaseWeave/releases/download/v0.2.0/install.sh
+sh install-releaseweave.sh --version v0.2.0
+export PATH="$HOME/.local/bin:$PATH"
+releaseweave --version
 ```
 
-No Python, Node, API keys or GitHub login are required to use the CLI locally. The old `changeforge` executable is available through `cargo install --path . --locked --bin changeforge` as a migration alias. The renamed product has not been published to crates.io or PyPI by this change; use this checkout to try it.
+The installer verifies SHA256 and the executable version. For Windows, manual archive installation, custom prefixes and system requirements, see [the installation guide](docs/INSTALL.md).
+
+Install pinned source with Cargo:
+
+```sh
+cargo install --git https://github.com/ricardoleal20/ReleaseWeave.git --tag v0.2.0 --locked --bin releaseweave
+```
+
+No Python, Node, API keys or GitHub login are required to use the CLI locally. Every native archive includes [a quickstart](docs/QUICKSTART.md) and both example projects. The old changeforge executable remains source-installable with --bin changeforge for migration.
 
 ## Single repository
 

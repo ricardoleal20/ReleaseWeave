@@ -1,8 +1,8 @@
 name: ReleaseWeave
 description: Build and install the ReleaseWeave CLI for single-repository and monorepo release plans
 branding:
-  icon: package
-  color: purple
+  icon: git-merge
+  color: green
 runs:
   using: composite
   steps:

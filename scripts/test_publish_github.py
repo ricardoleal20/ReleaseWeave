@@ -46,13 +46,13 @@ else:
     def git(self, *args):
         return subprocess.run(['git', *args], cwd=self.work, check=True, text=True, capture_output=True).stdout
 
-    def run_publisher(self, existing=''):
+    def run_publisher(self, existing='', *extra):
         env = dict(os.environ, PATH=str(self.bin) + os.pathsep + os.environ['PATH'],
                    RUNNER_TEMP=str(self.root), RELEASE_COMMIT=self.merge,
                    GH_REPO='acme/example', GH_CALLS=str(self.root / 'calls.jsonl'),
                    EXISTING_RELEASE=existing)
         script = REPO / 'scripts/publish_github.py'
-        command = [sys.executable, str(script), "--manifest", str(self.manifest)]
+        command = [sys.executable, str(script), "--manifest", str(self.manifest), *extra]
         result = subprocess.run(command, cwd=self.work, env=env, text=True, capture_output=True)
         calls = self.root / 'calls.jsonl'
         return result, [json.loads(line) for line in calls.read_text().splitlines()] if calls.exists() else []
@@ -90,6 +90,12 @@ else:
         self.assertEqual(len(ref_calls), 1)
         release = next(c for c in calls if c[:2] == ['release', 'create'])
         self.assertIn('--verify-tag', release)
+
+    def test_draft_option_keeps_release_unpublished_until_assets_are_ready(self):
+        result, calls = self.run_publisher('', '--draft')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        release = next(c for c in calls if c[:2] == ['release', 'create'])
+        self.assertIn('--draft', release)
 
     def test_remote_lookup_failure_blocks_publication(self):
         self.git('remote', 'set-url', 'origin', str(self.root / 'missing.git'))

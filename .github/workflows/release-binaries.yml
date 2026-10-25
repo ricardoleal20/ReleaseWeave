@@ -1,0 +1,165 @@
+name: Native release distribution
+
+on:
+  pull_request:
+    paths:
+      - Cargo.toml
+      - Cargo.lock
+      - src/**
+      - install.sh
+      - install.ps1
+      - scripts/dist.py
+      - scripts/smoke_dist.py
+      - scripts/publish_dist.py
+      - docs/QUICKSTART.md
+      - examples/**
+      - .github/workflows/release-binaries.yml
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      publish:
+        type: boolean
+        default: false
+      source_ref:
+        type: string
+        default: ''
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Stable version tag, for example v0.2.0
+        required: true
+        type: string
+      publish:
+        description: Publish only after all native builds and checksums are verified
+        type: boolean
+        default: false
+      source_ref:
+        description: Optional branch/SHA for a build-only preflight; leave empty for publication
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: native-release-${{ inputs.tag || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.version.outputs.tag }}
+      sha: ${{ steps.version.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_ref || inputs.tag || github.sha }}
+          fetch-depth: 0
+      - name: Validate version and capture exact source revision
+        id: version
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          SOURCE_REF: ${{ inputs.source_ref }}
+          PUBLISH: ${{ inputs.publish }}
+        run: |
+          python3 - <<'PY'
+          import os, subprocess, sys
+          sys.path.insert(0, 'scripts')
+          import dist
+          tag = os.environ.get('INPUT_TAG') or 'v' + dist.project_version()
+          dist.verify_version(tag)
+          if os.environ.get('PUBLISH') == 'true' and os.environ.get('SOURCE_REF'):
+              raise SystemExit('Publication must use the release tag, not an arbitrary source_ref')
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write('tag=' + tag + '\nsha=' + sha + '\n')
+          PY
+
+  build:
+    needs: prepare
+    name: native (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            executable: releaseweave
+          - runner: ubuntu-22.04-arm
+            target: aarch64-unknown-linux-gnu
+            executable: releaseweave
+          - runner: macos-15-intel
+            target: x86_64-apple-darwin
+            executable: releaseweave
+          - runner: macos-15
+            target: aarch64-apple-darwin
+            executable: releaseweave
+          - runner: windows-latest
+            target: x86_64-pc-windows-msvc
+            executable: releaseweave.exe
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build native executable
+        run: cargo build --release --locked --target ${{ matrix.target }} --bin releaseweave
+      - name: Package, install and exercise both shipped examples
+        shell: bash
+        env:
+          TAG: ${{ needs.prepare.outputs.tag }}
+          TARGET: ${{ matrix.target }}
+          EXECUTABLE: ${{ matrix.executable }}
+        run: |
+          python scripts/dist.py verify-version --tag "$TAG"
+          python scripts/dist.py package --binary "target/$TARGET/release/$EXECUTABLE" --tag "$TAG" --target "$TARGET" --output dist
+          extension=tar.gz
+          if [[ "$TARGET" == *windows-msvc ]]; then extension=zip; fi
+          archive="dist/releaseweave-$TAG-$TARGET.$extension"
+          python scripts/smoke_dist.py --archive "$archive" --tag "$TAG"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: releaseweave-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    needs: [prepare, build]
+    if: inputs.publish == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: releaseweave-*
+          merge-multiple: true
+          path: dist
+      - name: Verify tag still identifies the tested source
+        env:
+          TAG: ${{ needs.prepare.outputs.tag }}
+          SOURCE_SHA: ${{ needs.prepare.outputs.sha }}
+        run: |
+          git fetch --force origin "refs/tags/$TAG:refs/tags/$TAG"
+          test "$(git rev-parse "refs/tags/$TAG^{}")" = "$SOURCE_SHA"
+      - name: Complete checksummed distribution and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ needs.prepare.outputs.tag }}
+        run: |
+          cp install.sh install.ps1 dist/
+          cp docs/QUICKSTART.md dist/QUICKSTART.md
+          python3 scripts/dist.py checksums --directory dist
+          python3 scripts/dist.py verify --directory dist --tag "$TAG"
+          python3 scripts/publish_dist.py --tag "$TAG" --directory dist --notes "docs/releases/$TAG.md"
