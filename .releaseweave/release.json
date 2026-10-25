@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "mode": "single",
+  "changesets": [
+    ".changesets/first-releaseweave-release.toml"
+  ],
+  "releases": [
+    {
+      "package": "releaseweave",
+      "current_version": "0.1.5",
+      "next_version": "0.2.0",
+      "bump": "minor",
+      "tag": "v0.2.0",
+      "manifest": "Cargo.toml",
+      "changelog": "CHANGELOG.md",
+      "notes": "## [0.2.0]\n\n- First ReleaseWeave release: native installers, verified multi-platform binaries, clear single-repo and monorepo examples, and a new visual identity.\n\n"
+    }
+  ]
+}

@@ -7,14 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Rename the public repository to ReleaseWeave and update generated action references, metadata and migration instructions.
-- Integrate the reviewed Rust and GitHub Actions dependency updates; group future action updates for maintenance.
+## [0.2.0] - 2026-10-24
 
-- Rename the local product and CLI to ReleaseWeave, with a ChangeForge migration alias.
-- Add independent single-repository and monorepo release plans, noninteractive commands and JSON output.
-- Validate changesets and stage version, changelog and local Cargo.lock updates before cleanup.
-- Replace the experimental Python release chain with a Rust composite action and per-package GitHub release workflows.
-- Add executable demos, regression tests and migration documentation.
+First release under the ReleaseWeave name.
+
+- Native CLI archives and checksummed installers for Linux/macOS x64/ARM64 and Windows x64, each with complete single-repo and monorepo examples.
+- Independent per-package SemVer plans, noninteractive/interactive commands, dry-run, JSON metadata and changelogs.
+- Structured manifest editing, local Cargo.lock updates, validated changeset cleanup, dependency compatibility checks and rollback on ordinary IO failure.
+- GitHub release PRs, guarded tag publication and draft-first native distribution after all target installers pass.
+- Refreshed woven-strand icon/banner, installation guides, contribution policies and current dependencies.
+- ChangeForge executable/config migration support; explicit documentation of the pre-1.0 contract and unsupported dependency propagation/inherited versions.
 
 ## [0.1.5]
 

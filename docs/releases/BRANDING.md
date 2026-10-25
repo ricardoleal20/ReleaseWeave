@@ -1,0 +1,13 @@
+# ReleaseWeave release identity
+
+The first ReleaseWeave release replaces the ChangeForge anvil/hammer identity with interlaced release strands. Canonical assets are docs/img/releaseweave-icon.png and docs/img/releaseweave-banner.png. The original logo.png, banner.png and full_logo.png paths also serve the refreshed assets for existing links.
+
+Created with the built-in image_gen tool in generation mode. The icon uses a transparent background; the banner uses ink navy with warm ivory, turquoise and amber. The outputs were inspected for composition and exact brand/tagline text. These are raster assets; no old artwork was used as an identity reference. Saved paths are relative to the repository root.
+
+## Icon prompt
+
+Use case: logo-brand. Asset type: final square app icon for the open-source Rust release-management CLI ReleaseWeave. Primary request: a completely new symbol, different from an anvil/hammer forge. Design a single bold geometric W formed by two interlaced flat ribbon strands, one turquoise/teal and one warm ivory, with a small carefully separated amber stitch at one crossover. Meaning: independent release streams woven into one coherent path. Clean two-dimensional vector-like finish, precise broad geometry, excellent legibility at 32 pixels, no fine lines, no gradients, no shadows, no 3D, no texture. Center the large mark with balanced generous padding. Truly transparent background. No words, no letters separate from the abstract W mark, no border, no mockup, no watermark. Restrained premium developer-tool identity.
+
+## Banner prompt
+
+Use case: logo-brand. Asset type: final wide GitHub README banner for the open-source developer CLI ReleaseWeave. Create a new horizontal banner, approximately 3:1 composition. Input image 1 is an identity reference only: preserve its distinctive interwoven W ribbon symbol, turquoise, warm ivory and a small amber crossover, as the brand emblem. Scene: very dark ink-navy background, crisp clean premium flat editorial design, no texture, no 3D, no shadows, no fake interface. Place the emblem at modest scale beside a very large, flawlessly readable warm ivory wordmark. Text exactly: "ReleaseWeave". Below it in smaller restrained typography, exact text: "Releases for single repos & monorepos". Maintain generous padding and negative space. On the far right, a restrained line motif of three release strands converging into one amber node, subtly echoing a version graph; no labels or microtext. All content fully inside frame. Refined developer-tool identity, precise typography and geometry. Avoid anvil, hammer, CF initials, old ChangeForge branding, neon glow, grids, mockup framing, noisy gradients, and extra copy.

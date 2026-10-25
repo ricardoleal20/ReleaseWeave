@@ -23,6 +23,7 @@ def remote_tag_commit(tag):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, required=True)
+    parser.add_argument('--draft', action='store_true', help='Keep the release unpublished while native assets are built')
     args = parser.parse_args()
     plan = json.loads(args.manifest.read_text())
     if plan.get('schema_version') != 1:
@@ -59,9 +60,12 @@ def main():
         with tempfile.TemporaryDirectory() as tmp:
             notes = Path(tmp) / 'notes.md'
             notes.write_text(release['notes'])
-            run('gh', 'release', 'create', tag, '--verify-tag', '--title',
-                release['package'] + ' ' + release['next_version'], '--notes-file', str(notes))
-        print('Published:', tag)
+            command = ['gh', 'release', 'create', tag, '--verify-tag', '--title',
+                       release['package'] + ' ' + release['next_version'], '--notes-file', str(notes)]
+            if args.draft:
+                command.append('--draft')
+            run(*command)
+        print('Prepared draft:' if args.draft else 'Published:', tag)
     return 0
 
 

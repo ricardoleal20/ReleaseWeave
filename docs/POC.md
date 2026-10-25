@@ -2,6 +2,19 @@
 
 ReleaseWeave es el nuevo nombre de ChangeForge, incluido su repositorio público. Es un CLI de Rust inspirado en Changesets para documentar cambios, calcular versiones y preparar releases de GitHub. El mismo flujo funciona en un single-repo y en un monorepo con versiones independientes.
 
+## Instalar la primera release
+
+La versión v0.2.0 incluye binarios para Linux/macOS x64 y ARM64, y Windows x64, además de instaladores que verifican SHA256. Descargas: https://github.com/ricardoleal20/ReleaseWeave/releases/tag/v0.2.0.
+
+```sh
+curl -fLsS -o install-releaseweave.sh https://github.com/ricardoleal20/ReleaseWeave/releases/download/v0.2.0/install.sh
+sh install-releaseweave.sh --version v0.2.0
+export PATH="$HOME/.local/bin:$PATH"
+releaseweave --version
+```
+
+Cada archivo incluye los dos proyectos de ejemplo y docs/QUICKSTART.md. La guía INSTALL.md explica Windows, destinos personalizados y la instalación desde el tag con Cargo.
+
 ## Ejecutar y ver resultados reales
 
 Desde la raíz de este checkout:

@@ -8,7 +8,7 @@ Potential follow-up work is tracked through issues and must be designed and test
 - Support inherited Cargo package versions and linked/fixed release groups.
 - Define prerelease and snapshot release policies.
 - Integrate package-manager lockfile resolution beyond local Cargo.lock entries.
-- Publish native CLI distributions and define a supported release/version policy.
+- Expand native distributions and mature the pre-1.0 compatibility/support policy.
 - Add optional npm, crates.io and PyPI publishing after the local plan/apply workflow.
 
 These are roadmap items, not delivery commitments. Small documentation improvements, reproducible regression cases and platform fixes are welcome first contributions.
