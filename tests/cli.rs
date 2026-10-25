@@ -647,3 +647,15 @@ fn cleanup_failure_rolls_back_version_files_and_retains_changesets() {
     assert!(root.join(".changesets/retained.toml").exists());
     assert!(!root.join(".releaseweave/release.json").exists());
 }
+
+#[test]
+fn generated_github_workflows_use_the_renamed_action_repository() {
+    let d = single();
+    let root = d.path();
+    ok(root, &["init", "--yes", "--github"]);
+    for name in ["releaseweave-pr.yml", "releaseweave-release.yml"] {
+        let content = fs::read_to_string(root.join(".github/workflows").join(name)).unwrap();
+        assert!(content.contains("uses: ricardoleal20/ReleaseWeave@main"));
+        assert!(!content.contains("ricardoleal20/ChangeForge@"));
+    }
+}

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Rename the public repository to ReleaseWeave and update generated action references, metadata and migration instructions.
+- Integrate the reviewed Rust and GitHub Actions dependency updates; group future action updates for maintenance.
+
 - Rename the local product and CLI to ReleaseWeave, with a ChangeForge migration alias.
 - Add independent single-repository and monorepo release plans, noninteractive commands and JSON output.
 - Validate changesets and stage version, changelog and local Cargo.lock updates before cleanup.

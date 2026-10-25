@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Report a security vulnerability privately
-    url: https://github.com/ricardoleal20/ChangeForge/security/advisories/new
+    url: https://github.com/ricardoleal20/ReleaseWeave/security/advisories/new
     about: Use private vulnerability reporting instead of a public issue.
