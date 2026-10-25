@@ -11,6 +11,7 @@ on:
       - scripts/dist.py
       - scripts/smoke_dist.py
       - scripts/publish_dist.py
+      - docs/INSTALL.md
       - docs/QUICKSTART.md
       - examples/**
       - .github/workflows/release-binaries.yml
